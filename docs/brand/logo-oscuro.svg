@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 12 88 72" role="img" aria-label="Prosales">
+  <g transform="translate(50 50) scale(1) translate(-47 -48)">
+    <polygon points="6.63,54 18.63,54 33.63,78 21.63,78" fill="#F7F7F2"/>
+    <g transform="translate(18 0) skewX(-25)" fill="none" stroke="#A3E635" stroke-width="12">
+      <path d="M80 24 H58 A12 12 0 0 0 46 36 V78"/>
+      <path d="M46 36 A12 12 0 0 0 58 48 H70 A12 12 0 0 1 70 72 H58"/>
+    </g>
+  </g>
+</svg>
