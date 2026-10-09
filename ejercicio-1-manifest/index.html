@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Prosales CRM · Ejercicio 1: Web App Manifest</title>
+  <meta name="description" content="Gestiona tu embudo de ventas: leads, etapas y seguimientos, incluso sin conexión.">
+
+  <!-- ==================================================================
+       EJERCICIO 1 · WEB APP MANIFEST Y METADATOS DE INSTALACIÓN
+       ================================================================== -->
+
+  <!-- Enlace al manifiesto: le dice al navegador que este sitio es una
+       aplicación instalable y dónde leer su configuración. -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Color de la barra del navegador / barra de estado en móviles.
+       Debe coincidir con "theme_color" del manifest. -->
+  <meta name="theme-color" content="#1F1A3D">
+
+  <!-- Favicon vectorial (pestaña del navegador) con respaldo PNG -->
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
+
+  <!-- iOS/Safari no lee los íconos del manifest: se declaran aparte -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Prosales">
+
+  <!-- Tipografía de la marca -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="./" aria-label="Prosales, inicio">
+        <img src="icons/favicon.svg" alt="" width="36" height="36">
+        <span class="brand-name">pro<span>sales</span></span>
+      </a>
+      <span class="pill">Ejercicio 1 · Manifest</span>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">CRM para negocios de servicios</p>
+          <h1>Del prospecto a la venta, <em>desde tu bolsillo.</em></h1>
+          <p class="lead">Prosales organiza tus leads por etapa, te recuerda a quién darle seguimiento y funciona aunque te quedes sin señal. Instálala como una app más, sin pasar por ninguna tienda.</p>
+
+          <div class="install">
+            <button class="btn btn-primary" id="installBtn" type="button" hidden>
+              <svg class="ico" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>
+              Instalar Prosales
+            </button>
+            <p class="install-msg" id="installMsg" role="status">Comprobando si se puede instalar…</p>
+          </div>
+        </div>
+
+        <!-- Vista previa de cómo se ve la app en el celular -->
+        <div class="phone" aria-hidden="true">
+          <div class="phone-screen">
+            <div class="phone-status"></div>
+            <div class="home-grid">
+              <span class="app-dot"></span><span class="app-dot"></span><span class="app-dot"></span><span class="app-dot"></span>
+              <span class="app-dot"></span><span class="app-dot"></span>
+              <span class="app-icon"><img src="icons/icon-192.png" alt=""><small>Prosales</small></span>
+              <span class="app-dot"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Ficha de instalación (se llena leyendo manifest.json) ===== -->
+    <section class="section" aria-labelledby="h-ficha">
+      <div class="container">
+        <header class="section-head">
+          <h2 id="h-ficha">Ficha de instalación</h2>
+          <p>Estos datos se leen en vivo desde <code>manifest.json</code>: es exactamente lo que el navegador usa para instalar la app.</p>
+        </header>
+
+        <div class="card">
+          <dl class="props" id="props">
+            <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Íconos ===== -->
+    <section class="section" aria-labelledby="h-iconos">
+      <div class="container">
+        <header class="section-head">
+          <h2 id="h-iconos">Paquete de íconos</h2>
+          <p>PNG en 192 × 192 y 512 × 512 px. El ícono <em>maskable</em> deja un margen de seguridad para que Android pueda recortarlo en círculo, gota o cuadrado sin cortar el logo.</p>
+        </header>
+        <div class="icons" id="icons"></div>
+      </div>
+    </section>
+
+    <!-- ===== Splash Screen ===== -->
+    <section class="section" aria-labelledby="h-splash">
+      <div class="container splash-grid">
+        <div>
+          <header class="section-head">
+            <h2 id="h-splash">Así nace la Splash Screen</h2>
+            <p>No se programa: el navegador la arma solo al abrir la app instalada, combinando tres datos del manifest.</p>
+          </header>
+          <ol class="steps">
+            <li><strong>background_color</strong> pinta el fondo completo.</li>
+            <li><strong>icons</strong> aporta el ícono más cercano a 512 px, centrado.</li>
+            <li><strong>name</strong> aparece debajo del ícono.</li>
+          </ol>
+        </div>
+        <div class="splash-preview" id="splashPreview" aria-label="Vista previa de la Splash Screen">
+          <img id="splashIcon" src="icons/icon-512.png" alt="" width="96" height="96">
+          <span id="splashName">Prosales CRM</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span>Prosales CRM · Portafolio PWA</span>
+      <span>Siguiente: <strong>Ejercicio 2 · App Shell</strong></span>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
