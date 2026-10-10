@@ -19,18 +19,46 @@
   ],
   "screenshots": [
     {
-      "src": "screenshots/escritorio.png",
-      "sizes": "1280x720",
+      "src": "screenshots/promo-escritorio-1.png",
+      "sizes": "1920x1080",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Embudo de ventas con tus oportunidades por etapa"
+      "label": "Tu embudo de ventas, en tu bolsillo"
     },
     {
-      "src": "screenshots/movil.png",
-      "sizes": "1080x2160",
+      "src": "screenshots/promo-escritorio-2.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Nunca olvides un seguimiento"
+    },
+    {
+      "src": "screenshots/promo-escritorio-3.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Funciona aunque te quedes sin señal"
+    },
+    {
+      "src": "screenshots/promo-movil-1.png",
+      "sizes": "810x1440",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Seguimientos pendientes con acceso directo a llamada y WhatsApp"
+      "label": "Tu embudo de ventas, en tu bolsillo"
+    },
+    {
+      "src": "screenshots/promo-movil-2.png",
+      "sizes": "810x1440",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Nunca olvides un seguimiento"
+    },
+    {
+      "src": "screenshots/promo-movil-3.png",
+      "sizes": "810x1440",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Funciona aunque te quedes sin señal"
     }
   ],
   "shortcuts": [
