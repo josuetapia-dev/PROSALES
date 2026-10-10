@@ -11,7 +11,7 @@
 // Además avisa a la app cuándo se pierde y cuándo vuelve la conexión.
 // =====================================================================
 
-const VERSION = 'v3.1.0';
+const VERSION = 'v3.1.1';
 const PREFIJO = 'prosales-ej5-';
 const CACHE_SHELL = `${PREFIJO}shell-${VERSION}`;
 const CACHE_RUNTIME = `${PREFIJO}runtime-${VERSION}`;
