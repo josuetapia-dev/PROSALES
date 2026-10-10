@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Centro de ayuda · Prosales</title>
+  <meta name="theme-color" content="#1F1A3D">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <!--
+    Ejercicio 5: esta página NO se precachea a propósito.
+    · Con internet: se descarga y el SW guarda una copia (caché en tiempo de ejecución).
+    · Sin internet y sin copia guardada: el SW responde con offline.html.
+  -->
+  <style>
+    .help { width: min(760px, 100% - 32px); margin: 0 auto; padding: 24px 0 64px; }
+    .help-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 32px; }
+    .help h1 { font-size: clamp(1.75rem, 5vw, 2.25rem); font-weight: 800; margin-bottom: 6px; }
+    .help .lead { color: var(--muted); margin-bottom: 28px; }
+    .faq { display: grid; gap: 10px; }
+    .faq details { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 0 18px; }
+    .faq summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; font-weight: 700; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; font-size: 1.375rem; font-weight: 600; color: var(--muted); transition: transform .2s var(--ease); }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq details p { color: var(--muted); padding-bottom: 16px; }
+    .faq .stage { margin: 0 2px; }
+  </style>
+</head>
+<body>
+  <div class="help">
+    <header class="help-top">
+      <a class="brand" href="./index.html" aria-label="Prosales, volver al embudo">
+        <img src="icons/favicon.svg" alt="" width="34" height="34">
+        <span class="brand-name">pro<span>sales</span></span>
+      </a>
+      <a class="btn btn-ghost" href="./index.html">Volver a la app</a>
+    </header>
+
+    <main>
+      <h1>Centro de ayuda</h1>
+      <p class="lead">Respuestas rápidas para sacarle provecho a tu embudo de ventas.</p>
+
+      <div class="faq">
+        <details open>
+          <summary>¿Cómo registro un nuevo lead?</summary>
+          <p>Toca <strong>Nuevo lead</strong> en la parte superior (o el botón <strong>+</strong> en el celular). Llena el contacto, la empresa, el teléfono, el valor estimado y cuándo quieres darle el primer seguimiento. El lead entra al embudo en la etapa <em>Frío</em>.</p>
+        </details>
+        <details>
+          <summary>¿Qué significa cada etapa del embudo?</summary>
+          <p><span class="stage" style="--st: var(--st-frio)">Frío</span> aún no hay contacto ·
+            <span class="stage" style="--st: var(--st-contactado)">Contactado</span> ya hablaron ·
+            <span class="stage" style="--st: var(--st-propuesta)">Propuesta</span> enviaste cotización ·
+            <span class="stage" style="--st: var(--st-negociacion)">Negociación</span> ajustando condiciones ·
+            <span class="stage" style="--st: var(--st-ganado)">Ganado</span> o
+            <span class="stage" style="--st: var(--st-perdido)">Perdido</span> cuando se cierra.</p>
+        </details>
+        <details>
+          <summary>¿Prosales funciona sin internet?</summary>
+          <p>Sí. La primera vez que abres la app se guarda en tu dispositivo: el embudo, tus leads, los seguimientos y los reportes siguen disponibles sin señal. Las páginas que nunca abriste con internet (como esta ayuda) te mostrarán un aviso de "sin conexión" hasta que vuelva la red.</p>
+        </details>
+        <details>
+          <summary>¿Cómo instalo Prosales en mi celular o computadora?</summary>
+          <p>Usa el botón <strong>Instalar app</strong> del menú cuando aparezca. En Chrome también puedes usar el ícono de instalar de la barra de direcciones. En iPhone: Safari → Compartir → <em>Agregar a inicio</em>.</p>
+        </details>
+        <details>
+          <summary>¿Cómo llamo o escribo por WhatsApp a un cliente?</summary>
+          <p>En la lista de <strong>Leads</strong>, en <strong>Seguimientos</strong> o dentro del detalle de cada lead tienes los botones de llamada, WhatsApp (con un saludo ya escrito) y correo.</p>
+        </details>
+        <details>
+          <summary>¿Cómo sé si la app está actualizada?</summary>
+          <p>Cuando publicamos una versión nueva verás el aviso <strong>"Hay una nueva versión"</strong>. Toca <strong>Actualizar</strong> y la app se recarga con los cambios. En el panel <em>Estado de la app</em> (indicador de conexión del encabezado) se muestra la versión actual.</p>
+        </details>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
