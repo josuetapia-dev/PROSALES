@@ -11,7 +11,7 @@
 // Además avisa a la app cuándo se pierde y cuándo vuelve la conexión.
 // =====================================================================
 
-const VERSION = 'v3.0.0';
+const VERSION = 'v3.1.0';
 const PREFIJO = 'prosales-ej5-';
 const CACHE_SHELL = `${PREFIJO}shell-${VERSION}`;
 const CACHE_RUNTIME = `${PREFIJO}runtime-${VERSION}`;
@@ -23,6 +23,8 @@ const OFFLINE_URL = './offline.html';
 
 // App Shell precacheado. "ayuda.html" NO está aquí a propósito: se guarda
 // solo si se visita con internet, y sirve para probar el fallback.
+// Las imágenes promocionales del manifest tampoco (pesan ~1 MB y solo las usa
+// el instalador): se guardan en la caché de runtime cuando Chrome las pide.
 const APP_SHELL = [
   './',
   './index.html',
@@ -36,8 +38,6 @@ const APP_SHELL = [
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
   './icons/apple-touch-icon.png',
-  './screenshots/escritorio.png',
-  './screenshots/movil.png',
 ];
 
 const FUENTES_CSS = 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap';

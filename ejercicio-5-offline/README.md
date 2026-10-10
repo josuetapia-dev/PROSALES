@@ -22,6 +22,7 @@ Esta carpeta es la **versión completa** de Prosales.
 - **Aviso "Sin conexión"** dentro del App Shell con botón *Reintentar*, indicador del header en rojo y avisos al perder o recuperar la red. Sin conexión se reintenta cada 10 s; con conexión, cada minuto.
 - `offline.html` es **autocontenida** (CSS y logo SVG en línea): se muestra aunque no haya nada más en caché. Se recarga sola al volver la conexión.
 - **Centro de ayuda** (`ayuda.html`), que **no** se precachea a propósito: con internet se guarda al visitarla, y sin internet (sin haberla visitado) muestra el fallback. Es la forma más clara de probar este ejercicio.
+- **Instalador con imágenes promocionales**: el manifest usa un carrusel de 3 imágenes tipo tienda de apps (escritorio y celular), generadas con la app real desde [`docs/promo`](../docs/promo).
 - **Botón "Instalar app"** en el header, que solo aparece cuando el navegador permite instalar y se oculta si la app ya está instalada.
 
 ## Flujo del interceptor (`fetch`)
@@ -100,7 +101,7 @@ ejercicio-5-offline/
 ├── js/app.js           ← + detección de conexión e instalación
 ├── data/leads.json
 ├── icons/
-└── screenshots/
+└── screenshots/        ← imágenes promocionales del instalador (ver docs/promo)
 ```
 
 ## Capturas de verificación
