@@ -31,8 +31,12 @@ Cada ejercicio vive en su propia carpeta y es **independiente y funcional**; cad
 anterior como base y le agrega una capa de la arquitectura PWA.
 
 <p align="center">
-  <img src="ejercicio-2-app-shell/screenshots/escritorio.png" alt="Prosales en escritorio: embudo de ventas" width="640">
-  <img src="ejercicio-2-app-shell/screenshots/movil.png" alt="Prosales en móvil: seguimientos" width="180">
+  <img src="ejercicio-5-offline/screenshots/promo-escritorio-1.png" alt="Prosales: tu embudo de ventas, en tu bolsillo" width="720">
+</p>
+<p align="center">
+  <img src="ejercicio-5-offline/screenshots/promo-movil-1.png" alt="Embudo de ventas en el celular" width="200">
+  <img src="ejercicio-5-offline/screenshots/promo-movil-2.png" alt="Seguimientos pendientes" width="200">
+  <img src="ejercicio-5-offline/screenshots/promo-movil-3.png" alt="Prosales sin conexión" width="200">
 </p>
 
 ## Funcionalidades
