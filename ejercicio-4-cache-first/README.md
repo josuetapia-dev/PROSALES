@@ -22,9 +22,9 @@ abre al instante y funciona completa sin conexión (interfaz, datos y tipografí
 
 | Caché | Contenido | Cuándo se llena |
 |---|---|---|
-| `prosales-ej4-shell-v2.0.1` | `index.html`, `manifest.json`, `styles.css`, `app.js`, `leads.json`, íconos y capturas del manifest | En `install` (precaché) |
-| `prosales-ej4-fuentes-v2.0.1` | Hoja de Google Fonts y sus archivos `.woff2` | En `install` (precaché) |
-| `prosales-ej4-runtime-v2.0.1` | Cualquier otro recurso propio que se pida después | En `fetch`, al vuelo |
+| `prosales-ej4-shell-v2.0.2` | `index.html`, `manifest.json`, `styles.css`, `app.js`, `leads.json`, íconos y capturas del manifest | En `install` (precaché) |
+| `prosales-ej4-fuentes-v2.0.2` | Hoja de Google Fonts y sus archivos `.woff2` | En `install` (precaché) |
+| `prosales-ej4-runtime-v2.0.2` | Cualquier otro recurso propio que se pida después | En `fetch`, al vuelo |
 
 ## Estrategias en `fetch`
 
@@ -57,8 +57,8 @@ falla y el navegador conserva la versión anterior, así nunca queda un App Shel
 ## Cómo comprobarlo
 
 1. Inicia Apache y abre `http://localhost/prosales/ejercicio-4-cache-first/`.
-2. **F12 → Application → Cache Storage**: aparecen `prosales-ej4-shell-v2.0.1` y
-   `prosales-ej4-fuentes-v2.0.1`; al abrirlas se ven los archivos guardados.
+2. **F12 → Application → Cache Storage**: aparecen `prosales-ej4-shell-v2.0.2` y
+   `prosales-ej4-fuentes-v2.0.2`; al abrirlas se ven los archivos guardados.
 3. **F12 → Network** y recarga: los recursos muestran **(ServiceWorker)** en la columna *Size*.
 4. **Modo sin conexión:**
    - En **Network**, cambia *No throttling* por **Offline** (o en *Application → Service Workers* marca **Offline**) y recarga.
@@ -67,7 +67,7 @@ falla y el navegador conserva la versión anterior, así nunca queda un App Shel
 5. En la app, toca **"En línea · SW"** en el header: la sección *Cache API* muestra las cachés y el
    porcentaje de peticiones servidas desde caché (100% en la segunda carga).
 6. **Actualización de caché:** cambia `VERSION` en `sw.js` y recarga → pulsa **Actualizar** → en
-   *Cache Storage* las cachés `v2.0.1` desaparecen y quedan las de la nueva versión.
+   *Cache Storage* las cachés `v2.0.2` desaparecen y quedan las de la nueva versión.
 
 > ¿Qué pasa si se navega a una página que **no** está en caché y no hay red? Hoy el navegador
 > muestra su error genérico. Eso es lo que resuelve el **Ejercicio 5** con una página de

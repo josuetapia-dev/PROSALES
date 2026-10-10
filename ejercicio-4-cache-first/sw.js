@@ -11,7 +11,7 @@
 
 // Al cambiar la versión cambian los nombres de las cachés: en "activate"
 // se eliminan las viejas y el App Shell se descarga de nuevo.
-const VERSION = 'v2.0.1';
+const VERSION = 'v2.0.2';
 const PREFIJO = 'prosales-ej4-';               // cada ejercicio comparte localhost: el prefijo evita borrar cachés ajenas
 const CACHE_SHELL = `${PREFIJO}shell-${VERSION}`;      // App Shell precacheado
 const CACHE_RUNTIME = `${PREFIJO}runtime-${VERSION}`;  // recursos que se guardan al vuelo
