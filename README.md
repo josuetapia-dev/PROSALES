@@ -30,6 +30,22 @@ Este repositorio corresponde al **Portafolio de Ejercicios 1 – Configuración 
 Cada ejercicio vive en su propia carpeta y es **independiente y funcional**; cada uno toma el
 anterior como base y le agrega una capa de la arquitectura PWA.
 
+<p align="center">
+  <img src="ejercicio-2-app-shell/screenshots/escritorio.png" alt="Prosales en escritorio: embudo de ventas" width="640">
+  <img src="ejercicio-2-app-shell/screenshots/movil.png" alt="Prosales en móvil: seguimientos" width="180">
+</p>
+
+## Funcionalidades
+
+- **Embudo de ventas** tipo kanban: Frío → Contactado → Propuesta → Negociación → Ganado / Perdido, con montos por etapa.
+- **Leads** con búsqueda, filtros y accesos directos para **llamar**, abrir **WhatsApp** o enviar correo.
+- **Seguimientos** vencidos, de hoy y de la semana, con contador en el menú.
+- **Reportes**: avance de la meta, tasa de cierre, ticket promedio y origen de los leads.
+- **Instalable** en escritorio y celular, con accesos directos e instalador enriquecido.
+- **Funciona sin conexión**: App Shell, datos y tipografía en caché, y una página propia de "Modo sin conexión".
+
+> La versión completa está en [`ejercicio-5-offline`](ejercicio-5-offline): es la que conviene abrir e instalar.
+
 ## Estructura del repositorio
 
 | Carpeta | Ejercicio | Qué se construye |
@@ -78,11 +94,11 @@ npx serve .
 
 ## Progreso
 
-- [ ] Ejercicio 1: Web App Manifest
-- [ ] Ejercicio 2: App Shell y Splash Screen
-- [ ] Ejercicio 3: Service Worker
-- [ ] Ejercicio 4: Cache First
-- [ ] Ejercicio 5: Modo sin conexión
+- [x] Ejercicio 1: Web App Manifest
+- [x] Ejercicio 2: App Shell y Splash Screen
+- [x] Ejercicio 3: Service Worker
+- [x] Ejercicio 4: Cache First
+- [x] Ejercicio 5: Modo sin conexión
 
 ## Autor
 
