@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <title>Prosales · Compositor de imágenes promocionales</title>
+  <!--
+    Genera las imágenes del instalador enriquecido (manifest → screenshots).
+    Muestra la app REAL de ejercicio-5-offline dentro de un marco de
+    laptop o celular, con un titular de marketing.
+
+    Uso:  promo.html?slide=1&formato=wide     (1280×720, escritorio)
+          promo.html?slide=2&formato=narrow   (540×960, celular)
+    Exportar (PowerShell): ver docs/promo/README.md
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    :root { --tinta: #1F1A3D; --tinta-2: #2A2452; --lima: #A3E635; --papel: #F7F7F2; --lavanda: #C9C6E3; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    body {
+      font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #FFFFFF;
+      background-color: var(--tinta);
+      /* retícula sutil de puntos */
+      background-image: radial-gradient(rgba(255, 255, 255, .07) 1.2px, transparent 1.2px);
+      background-size: 22px 22px;
+      position: relative;
+    }
+    /* Halo de color detrás del dispositivo */
+    .glow { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; pointer-events: none; }
+
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -.03em; }
+    .brand span { color: var(--lima); }
+    .eyebrow { font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--lima); }
+    h1 { font-weight: 800; letter-spacing: -.035em; line-height: 1.05; }
+    h1 em { font-style: normal; color: var(--lima); }
+    .sub { color: var(--lavanda); line-height: 1.5; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-size: 13px; font-weight: 700; padding: 7px 12px; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .12); }
+    .chip::before { content: "✓ "; color: var(--lima); }
+
+    /* ===== Formato ancho (escritorio) ===== */
+    .wide .copy { position: absolute; left: 64px; top: 64px; width: 430px; display: flex; flex-direction: column; gap: 18px; }
+    .wide .brand { font-size: 22px; margin-bottom: 18px; }
+    .wide .eyebrow { font-size: 13px; }
+    .wide h1 { font-size: 54px; }
+    .wide .sub { font-size: 18px; }
+    .wide .chips { margin-top: 10px; }
+    .wide .glow { width: 520px; height: 420px; right: 40px; top: 160px; background: #6D5BD0; }
+
+    .laptop { position: absolute; left: 540px; top: 108px; width: 820px; }
+    .laptop .screen {
+      position: relative; height: 512px; overflow: hidden;
+      border: 12px solid #0E0C1C; border-bottom-width: 14px; border-radius: 18px 18px 0 0;
+      background: #0E0C1C; box-shadow: 0 40px 80px -20px rgba(0, 0, 0, .6);
+    }
+    .laptop .base { height: 18px; margin: 0 -40px; border-radius: 0 0 14px 14px; background: linear-gradient(#3A3466, #241F47); }
+
+    /* ===== Formato vertical (celular) ===== */
+    .narrow .copy { position: absolute; left: 40px; right: 40px; top: 48px; display: flex; flex-direction: column; gap: 14px; text-align: left; }
+    .narrow .brand { font-size: 20px; margin-bottom: 10px; }
+    .narrow .eyebrow { font-size: 12px; }
+    .narrow h1 { font-size: 40px; }
+    .narrow .sub { font-size: 16px; }
+    .narrow .glow { width: 420px; height: 420px; left: 60px; bottom: 60px; background: #6D5BD0; }
+
+    .phone {
+      position: absolute; left: 50%; top: 330px; transform: translateX(-50%);
+      width: 340px; height: 700px; padding: 12px;
+      border-radius: 52px; background: #0E0C1C;
+      box-shadow: 0 0 0 2px #3A3466, 0 40px 80px -20px rgba(0, 0, 0, .7);
+    }
+    .phone .screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 40px; background: var(--papel); }
+    .phone .notch { position: absolute; z-index: 2; left: 50%; top: 10px; transform: translateX(-50%); width: 96px; height: 26px; border-radius: 99px; background: #0E0C1C; }
+    .phone .statusbar {
+      position: absolute; z-index: 1; left: 0; right: 0; top: 0; height: 44px; padding: 0 28px 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 14px; font-weight: 700; color: #17142E; background: var(--papel);
+    }
+    .phone .statusbar i { display: inline-block; width: 22px; height: 11px; border: 1.5px solid #17142E; border-radius: 3px; position: relative; }
+    .phone .statusbar i::after { content: ""; position: absolute; inset: 1.5px 5px 1.5px 1.5px; background: #17142E; border-radius: 1px; }
+    .phone iframe { top: 44px; }
+
+    /* La app real, renderizada a tamaño completo y escalada dentro del marco */
+    iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; background: var(--papel); }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="copy">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">
+        <rect width="100" height="100" rx="22" fill="#2A2452"/>
+        <g transform="translate(50 50) scale(.78) translate(-47 -48)">
+          <polygon points="6.63,54 18.63,54 33.63,78 21.63,78" fill="#F7F7F2"/>
+          <g transform="translate(18 0) skewX(-25)" fill="none" stroke="#A3E635" stroke-width="12">
+            <path d="M80 24 H58 A12 12 0 0 0 46 36 V78"/><path d="M46 36 A12 12 0 0 0 58 48 H70 A12 12 0 0 1 70 72 H58"/>
+          </g>
+        </g>
+      </svg>
+      <div>pro<span>sales</span></div>
+    </div>
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="titulo"></h1>
+    <p class="sub" id="sub"></p>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div id="device"></div>
+
+  <script>
+    const SLIDES = {
+      1: {
+        vista: 'embudo',
+        eyebrow: 'CRM para negocios de servicios',
+        titulo: 'Tu embudo de ventas, <em>en tu bolsillo.</em>',
+        sub: 'Cada oportunidad en su etapa, con su monto y su próximo paso.',
+        chips: ['Kanban por etapa', 'Montos por columna', 'Meta del mes'],
+      },
+      2: {
+        vista: 'seguimientos',
+        eyebrow: 'Seguimientos',
+        titulo: 'Nunca olvides <em>un seguimiento.</em>',
+        sub: 'Vencidos, de hoy y de la semana. Llama o escribe por WhatsApp a un toque.',
+        chips: ['Recordatorios', 'WhatsApp directo', 'Llamada en un toque'],
+      },
+      3: {
+        vista: 'embudo',
+        offline: true,
+        eyebrow: 'Funciona sin internet',
+        titulo: 'Aunque te quedes <em>sin señal.</em>',
+        sub: 'Tus leads, seguimientos y reportes siguen disponibles sin conexión.',
+        chips: ['Modo offline', 'Se instala como app', 'Carga al instante'],
+      },
+    };
+
+    const params = new URLSearchParams(location.search);
+    const slide = SLIDES[params.get('slide')] || SLIDES[1];
+    const formato = params.get('formato') === 'narrow' ? 'narrow' : 'wide';
+    document.body.classList.add(formato);
+
+    document.getElementById('eyebrow').textContent = slide.eyebrow;
+    document.getElementById('titulo').innerHTML = slide.titulo;
+    document.getElementById('sub').textContent = slide.sub;
+    document.getElementById('chips').append(...(formato === 'wide' ? slide.chips : []).map((c) => Object.assign(document.createElement('span'), { className: 'chip', textContent: c })));
+
+    // Tamaño "real" de la app y escala para que quepa en el marco
+    const app = formato === 'wide'
+      ? { w: 1280, h: 806, escala: 796 / 1280 }
+      : { w: 390, h: 844, escala: 316 / 390 };
+
+    const device = document.getElementById('device');
+    device.className = formato === 'wide' ? 'laptop' : 'phone';
+    device.innerHTML = formato === 'wide'
+      ? '<div class="screen"></div><div class="base"></div>'
+      : '<div class="screen"><div class="notch"></div><div class="statusbar"><span>9:41</span><i></i></div></div>';
+
+    const frame = document.createElement('iframe');
+    frame.width = app.w;
+    frame.height = app.h;
+    frame.style.transform = `scale(${app.escala})`;
+    frame.src = `../../ejercicio-5-offline/index.html#${slide.vista}`;
+    device.querySelector('.screen').append(frame);
+
+    // Diapositiva "offline": se fuerza el estado sin conexión dentro de la app
+    if (slide.offline) {
+      frame.addEventListener('load', () => setTimeout(() => {
+        const w = frame.contentWindow;
+        w.comprobarConexion = () => {};   // que el ping no lo regrese a "en línea"
+        w.aplicarConexion(false);
+      }, 900));
+    }
+  </script>
+</body>
+</html>
