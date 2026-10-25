@@ -1,0 +1,6 @@
+/* Ejercicio 3 · estilos propios */
+.card .alert { margin-top: 12px; }
+.sw-hint { margin-top: 14px; }
+.sw-hint code, .hint code { font-family: var(--mono); font-size: .8125rem; color: var(--accent-text); }
+#recordatorioForm .btn { justify-self: start; }
+@media (max-width: 520px) { #recordatorioForm .btn { justify-self: stretch; } }

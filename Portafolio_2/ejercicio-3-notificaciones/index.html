@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Recordatorios · Prosales Campo</title>
+  <meta name="description" content="Programa recordatorios de seguimiento con notificaciones del Service Worker.">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1F1A3D">
+  <link rel="icon" href="../comun/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../comun/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Prosales Campo">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../comun/styles.css">
+  <link rel="stylesheet" href="css/ejercicio.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="../" aria-label="Prosales Campo, inicio">
+      <img src="../comun/icons/favicon.svg" alt="" width="32" height="32">
+      <span class="brand-name">pro<span>sales</span></span>
+      <span class="brand-tag">Campo</span>
+    </a>
+    <span class="net" id="netStatus"><span class="net-dot" aria-hidden="true"></span><span class="net-text">En línea</span></span>
+  </header>
+
+  <main class="page">
+    <a class="back" href="../"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>Módulos</a>
+    <header class="page-head">
+      <p class="eyebrow">Ejercicio 3 · Notificaciones locales</p>
+      <h1>Recordatorios de seguimiento</h1>
+      <p>Después de una visita, el vendedor programa un aviso para llamar o enviar la cotización.
+        La notificación la muestra el <strong>Service Worker</strong>, así que llega aunque la pestaña esté en segundo plano.</p>
+      <div class="api-tags"><code>Notification.requestPermission</code><code>self.registration.showNotification</code><code>notificationclick</code></div>
+    </header>
+
+    <div class="grid">
+      <!-- 1) Permiso -->
+      <section class="card" aria-labelledby="t-permiso">
+        <div class="card-head">
+          <h2 id="t-permiso"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>Permiso de notificaciones</h2>
+          <span class="pill" id="permPill" data-state="unknown">–</span>
+        </div>
+        <p id="permText">Revisando…</p>
+        <button class="btn btn-primary btn-block" type="button" id="btnPermiso" hidden>
+          <svg class="ico" aria-hidden="true"><use href="#i-bell"/></svg><span>Activar notificaciones</span>
+        </button>
+        <div class="alert danger" id="permDenied" hidden>
+          <svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>
+          <div>
+            <strong>Las notificaciones están bloqueadas</strong>
+            Actívalas desde el candado de la barra de direcciones → <em>Notificaciones</em> → <em>Permitir</em>.
+          </div>
+        </div>
+        <div class="alert" id="iosAviso" hidden>
+          <svg class="ico" aria-hidden="true"><use href="#i-info"/></svg>
+          <div>
+            <strong>En iPhone</strong>
+            Primero agrega la app a la pantalla de inicio (Compartir → <em>Agregar a inicio</em>) y ábrela desde ahí.
+          </div>
+        </div>
+      </section>
+
+      <!-- 2) Service Worker -->
+      <section class="card" aria-labelledby="t-sw">
+        <div class="card-head">
+          <h2 id="t-sw"><svg class="ico" aria-hidden="true"><use href="#i-cog"/></svg>Service Worker</h2>
+          <span class="pill" id="swPill" data-state="unknown">Registrando…</span>
+        </div>
+        <dl class="kv">
+          <div><dt>Estado</dt><dd id="swEstado">–</dd></div>
+          <div><dt>Programados</dt><dd id="swPendientes">0</dd></div>
+        </dl>
+        <p class="hint sw-hint">Los avisos se muestran con <code>self.registration.showNotification()</code> dentro de <code>sw.js</code>, no con <code>new Notification()</code> desde la página.</p>
+      </section>
+
+      <!-- 3) Programar recordatorio -->
+      <section class="card grid-wide" aria-labelledby="t-programar">
+        <div class="card-head">
+          <h2 id="t-programar"><svg class="ico" aria-hidden="true"><use href="#i-bell"/></svg>Nuevo recordatorio</h2>
+        </div>
+        <form class="form" id="recordatorioForm">
+          <div class="field-row">
+            <div class="field">
+              <label for="cliente">Cliente</label>
+              <input id="cliente" list="clientes" required placeholder="Constructora Ríos" autocomplete="off">
+              <datalist id="clientes">
+                <option>Clínica Dental Sonríe</option><option>Constructora Ríos</option><option>Café La Esquina</option>
+                <option>Taller Mecánico Hernández</option><option>Inmobiliaria Horizonte</option><option>Florería Pétalo</option>
+              </datalist>
+            </div>
+            <div class="field">
+              <label for="tipo">Acción</label>
+              <select id="tipo">
+                <option value="llamar">📞 Llamar</option>
+                <option value="cotizacion">📄 Enviar cotización</option>
+                <option value="visita">📍 Volver a visitar</option>
+                <option value="cobro">💰 Cobrar</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cuando">¿Cuándo?</label>
+              <select id="cuando">
+                <option value="0">Ahora</option>
+                <option value="10" selected>En 10 segundos</option>
+                <option value="30">En 30 segundos</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="nota">Nota (cuerpo de la notificación)</label>
+            <input id="nota" placeholder="Confirmar si aprobaron la propuesta v2" maxlength="120">
+          </div>
+          <button class="btn btn-primary" type="submit" id="btnProgramar">
+            <svg class="ico" aria-hidden="true"><use href="#i-bell"/></svg><span>Programar recordatorio</span>
+          </button>
+          <p class="hint">Tip: programa uno "en 10 segundos" y cambia de pestaña o minimiza el navegador. El aviso llega igual.</p>
+        </form>
+      </section>
+
+      <!-- 4) Registro -->
+      <section class="card grid-wide" aria-labelledby="t-log">
+        <div class="card-head">
+          <h2 id="t-log"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>Registro de eventos</h2>
+        </div>
+        <ol class="log" id="log" aria-live="polite"></ol>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../comun/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
