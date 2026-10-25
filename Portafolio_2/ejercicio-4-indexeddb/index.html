@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Bitácora de visitas · Prosales Campo</title>
+  <meta name="description" content="Bitácora de visitas a clientes guardada en el dispositivo con IndexedDB, sin depender de internet.">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1F1A3D">
+  <link rel="icon" href="../comun/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../comun/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../comun/styles.css">
+  <link rel="stylesheet" href="css/ejercicio.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-wifi-off" viewBox="0 0 24 24"><path d="M3 3l18 18M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 5-2.7M14 10.3A10 10 0 0 1 19 13M2 9.5a15 15 0 0 1 4.5-2.8M11 5.1A15 15 0 0 1 22 9.5M12 20h.01"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="../" aria-label="Prosales Campo, inicio">
+      <img src="../comun/icons/favicon.svg" alt="" width="32" height="32">
+      <span class="brand-name">pro<span>sales</span></span>
+      <span class="brand-tag">Campo</span>
+    </a>
+    <span class="net" id="netStatus"><span class="net-dot" aria-hidden="true"></span><span class="net-text">En línea</span></span>
+  </header>
+
+  <main class="page">
+    <a class="back" href="../"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>Módulos</a>
+    <header class="page-head">
+      <p class="eyebrow">Ejercicio 4 · Persistencia asíncrona</p>
+      <h1>Bitácora de visitas</h1>
+      <p>Cada visita queda guardada en el propio dispositivo con IndexedDB. El vendedor puede registrar,
+        consultar, editar y eliminar visitas aunque esté en un sótano o una zona sin señal.</p>
+      <div class="api-tags"><code>indexedDB.open</code><code>createObjectStore</code><code>add · getAll · put · delete</code></div>
+    </header>
+
+    <div class="alert warn" id="offlineAviso" role="status" hidden>
+      <svg class="ico" aria-hidden="true"><use href="#i-wifi-off"/></svg>
+      <div><strong>Sin conexión</strong>No pasa nada: la bitácora vive en tu dispositivo y sigue funcionando igual.</div>
+    </div>
+    <div class="alert danger" id="dbError" role="alert" hidden>
+      <svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>
+      <div><strong>No se pudo abrir la base de datos</strong><span id="dbErrorTexto"></span></div>
+    </div>
+
+    <dl class="kv resumen">
+      <div><dt>Visitas</dt><dd id="totalVisitas">0</dd></div>
+      <div><dt>Ventas cerradas</dt><dd id="totalVentas">0</dd></div>
+      <div><dt>Monto vendido</dt><dd id="totalMonto">$0</dd></div>
+      <div><dt>Espacio usado</dt><dd id="espacio">–</dd></div>
+    </dl>
+
+    <div class="grid bitacora">
+      <!-- CREATE / UPDATE -->
+      <section class="card" aria-labelledby="t-form">
+        <div class="card-head">
+          <h2 id="t-form"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span id="formTitulo">Nueva visita</span></h2>
+        </div>
+        <form class="form" id="visitaForm" novalidate>
+          <input type="hidden" id="visitaId">
+          <div class="field">
+            <label for="cliente">Cliente</label>
+            <input id="cliente" list="clientes" required placeholder="Gimnasio Fuerza Total" autocomplete="off">
+            <datalist id="clientes">
+              <option>Clínica Dental Sonríe</option><option>Constructora Ríos</option><option>Café La Esquina</option>
+              <option>Taller Mecánico Hernández</option><option>Inmobiliaria Horizonte</option><option>Gimnasio Fuerza Total</option>
+              <option>Estética Bella</option><option>Florería Pétalo</option><option>Veterinaria Patitas</option>
+            </datalist>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="tipo">Tipo de visita</label>
+              <select id="tipo">
+                <option>Prospección</option><option>Seguimiento</option><option>Presentación</option>
+                <option>Cobranza</option><option>Entrega</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="resultado">Resultado</label>
+              <select id="resultado">
+                <option value="interesado">Interesado</option>
+                <option value="volver">Volver después</option>
+                <option value="venta">Venta cerrada</option>
+                <option value="sin-interes">Sin interés</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="monto">Monto (MXN)</label>
+            <input id="monto" type="number" inputmode="decimal" min="0" step="100" placeholder="0">
+          </div>
+          <div class="field">
+            <label for="notas">Notas</label>
+            <textarea id="notas" placeholder="Quiere la cotización con 3 meses sin intereses" maxlength="400"></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" type="submit" id="btnGuardar">
+              <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Guardar visita</span>
+            </button>
+            <button class="btn btn-ghost" type="button" id="btnCancelar" hidden>Cancelar edición</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- READ / DELETE -->
+      <section class="card" aria-labelledby="t-lista">
+        <div class="card-head">
+          <h2 id="t-lista"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>Visitas guardadas</h2>
+          <button class="btn btn-danger btn-sm" type="button" id="btnVaciar" hidden>Borrar todo</button>
+        </div>
+        <div class="buscador">
+          <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
+          <label for="buscar" class="sr-only">Buscar visitas</label>
+          <input id="buscar" type="search" placeholder="Buscar por cliente o nota" autocomplete="off">
+        </div>
+        <div class="filtros" id="filtros" role="group" aria-label="Filtrar por resultado">
+          <button type="button" class="chip" data-filtro="" aria-pressed="true">Todas</button>
+          <button type="button" class="chip" data-filtro="venta" aria-pressed="false">Venta cerrada</button>
+          <button type="button" class="chip" data-filtro="interesado" aria-pressed="false">Interesado</button>
+          <button type="button" class="chip" data-filtro="volver" aria-pressed="false">Volver después</button>
+          <button type="button" class="chip" data-filtro="sin-interes" aria-pressed="false">Sin interés</button>
+        </div>
+        <ul class="list visitas" id="lista" aria-live="polite"></ul>
+        <div class="empty" id="vacio" hidden>
+          <svg class="ico" aria-hidden="true"><use href="#i-db"/></svg>
+          <p id="vacioTexto">Aún no hay visitas guardadas.</p>
+          <button class="btn btn-ghost btn-sm" type="button" id="btnEjemplo">Cargar visitas de ejemplo</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../comun/ui.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
