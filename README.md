@@ -62,6 +62,19 @@ anterior como base y le agrega una capa de la arquitectura PWA.
 
 Cada carpeta incluye su propio `README.md` con la explicación del ejercicio y cómo comprobarlo.
 
+### Portafolio 2 · Prosales Campo
+
+La carpeta [`Portafolio_2`](Portafolio_2) agrega el módulo para vendedores que visitan clientes en
+la calle, usando Web APIs del dispositivo:
+
+| Carpeta | Módulo | Web APIs |
+|---|---|---|
+| [`ejercicio-1-geolocalizacion`](Portafolio_2/ejercicio-1-geolocalizacion) | Registro de llegada con mapa | Permissions API, Geolocation API |
+| [`ejercicio-2-camara`](Portafolio_2/ejercicio-2-camara) | Foto de evidencia | `getUserMedia`, `<canvas>` |
+| [`ejercicio-3-notificaciones`](Portafolio_2/ejercicio-3-notificaciones) | Recordatorios de seguimiento | Notifications API desde el Service Worker |
+| [`ejercicio-4-indexeddb`](Portafolio_2/ejercicio-4-indexeddb) | Bitácora de visitas (CRUD) | IndexedDB |
+| [`ejercicio-5-network-first`](Portafolio_2/ejercicio-5-network-first) | Catálogo sin conexión | `fetch`, Network-First, IndexedDB |
+
 ## Cómo ejecutarlo
 
 Los Service Workers solo funcionan en `https://` o en `localhost`, así que **no basta con abrir el
