@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Prosales</title>
+  <meta name="description" content="Prosales: CRM de ventas instalable que funciona sin conexión, y Prosales Campo para visitas a clientes.">
+  <meta name="theme-color" content="#1F1A3D">
+  <link rel="icon" href="Portafolio_2/comun/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="Portafolio_2/comun/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="Portafolio_2/comun/styles.css">
+  <style>
+    .hero { padding: 8px 0 28px; }
+    .hero h1 { font-size: clamp(2.25rem, 7vw, 3.5rem); font-weight: 800; letter-spacing: -.04em; margin: 8px 0 12px; }
+    .hero h1 span { color: var(--accent-text); }
+    .hero p { color: var(--muted); font-size: 1.0625rem; max-width: 58ch; }
+
+    .apps { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); }
+    .app-card {
+      display: flex; flex-direction: column; gap: 14px;
+      padding: 24px; border-radius: var(--radius);
+      background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+    }
+    .app-card header { display: flex; align-items: center; gap: 14px; }
+    .app-card header img { border-radius: 14px; }
+    .app-card h2 { font-size: 1.375rem; font-weight: 800; }
+    .app-card h2 span { color: var(--accent-text); }
+    .app-card > p { color: var(--muted); }
+    .app-card .btn { align-self: flex-start; }
+
+    .partes { list-style: none; display: grid; gap: 6px; margin-top: 4px; }
+    .partes a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: var(--radius-sm);
+      color: var(--text); text-decoration: none; font-weight: 600; font-size: .9375rem;
+      background: var(--surface-2);
+    }
+    .partes a:hover { background: var(--surface-3); }
+    .partes .n {
+      width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+      display: grid; place-items: center; font-size: .75rem; font-weight: 800;
+      background: var(--tinta); color: var(--lima);
+    }
+    .partes small { margin-left: auto; color: var(--muted); font-weight: 500; }
+    @media (max-width: 520px) { .partes small { display: none; } .app-card .btn { align-self: stretch; } }
+  </style>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Prosales, inicio">
+      <img src="Portafolio_2/comun/icons/favicon.svg" alt="" width="32" height="32">
+      <span class="brand-name">pro<span>sales</span></span>
+    </a>
+    <a class="btn btn-ghost btn-sm" href="https://github.com/josuetapia-dev/PROSALES" target="_blank" rel="noopener">
+      <svg class="ico" aria-hidden="true"><use href="#i-code"/></svg>Código
+    </a>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">CRM para negocios de servicios</p>
+      <h1>Del prospecto a la venta, <span>desde tu bolsillo</span></h1>
+      <p>Prosales lleva tu embudo de ventas en el celular y en la computadora: se instala desde el navegador
+        y sigue funcionando aunque te quedes sin señal.</p>
+    </section>
+
+    <div class="apps">
+      <!-- Portafolio 1 -->
+      <section class="app-card" aria-labelledby="t-crm">
+        <header>
+          <img src="Portafolio_2/comun/icons/icon-192.png" alt="" width="56" height="56">
+          <div>
+            <p class="eyebrow">Portafolio 1</p>
+            <h2 id="t-crm">Prosales <span>CRM</span></h2>
+          </div>
+        </header>
+        <p>Embudo de ventas, leads, seguimientos y reportes. Instalable y con modo sin conexión.</p>
+        <a class="btn btn-primary" href="ejercicio-5-offline/">
+          Abrir Prosales CRM<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+        <ul class="partes">
+          <li><a href="ejercicio-1-manifest/"><span class="n">1</span>Manifest e instalación</a></li>
+          <li><a href="ejercicio-2-app-shell/"><span class="n">2</span>App Shell</a></li>
+          <li><a href="ejercicio-3-service-worker/"><span class="n">3</span>Service Worker</a></li>
+          <li><a href="ejercicio-4-cache-first/"><span class="n">4</span>Caché</a></li>
+          <li><a href="ejercicio-5-offline/"><span class="n">5</span>Modo sin conexión<small>Versión completa</small></a></li>
+        </ul>
+      </section>
+
+      <!-- Portafolio 2 -->
+      <section class="app-card" aria-labelledby="t-campo">
+        <header>
+          <img src="Portafolio_2/comun/icons/icon-192.png" alt="" width="56" height="56">
+          <div>
+            <p class="eyebrow">Portafolio 2</p>
+            <h2 id="t-campo">Prosales <span>Campo</span></h2>
+          </div>
+        </header>
+        <p>Para tu ruta del día: registra tu llegada, toma fotos de evidencia, programa recordatorios y consulta el catálogo sin señal.</p>
+        <a class="btn btn-primary" href="Portafolio_2/">
+          Abrir Prosales Campo<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+        <ul class="partes">
+          <li><a href="Portafolio_2/ejercicio-1-geolocalizacion/"><span class="n">1</span>Registro de llegada</a></li>
+          <li><a href="Portafolio_2/ejercicio-2-camara/"><span class="n">2</span>Foto de evidencia</a></li>
+          <li><a href="Portafolio_2/ejercicio-3-notificaciones/"><span class="n">3</span>Recordatorios</a></li>
+          <li><a href="Portafolio_2/ejercicio-4-indexeddb/"><span class="n">4</span>Bitácora de visitas</a></li>
+          <li><a href="Portafolio_2/ejercicio-5-network-first/"><span class="n">5</span>Catálogo de productos</a></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">Josué Pérez Tapia · Aplicaciones Web Progresivas · UTGZ</footer>
+</body>
+</html>
