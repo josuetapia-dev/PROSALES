@@ -21,6 +21,7 @@
   <svg class="sprite" aria-hidden="true">
     <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
     <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
     <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
@@ -41,11 +42,8 @@
   <main class="page">
     <a class="back" href="../"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>Módulos</a>
     <header class="page-head">
-      <p class="eyebrow">Ejercicio 3 · Notificaciones locales</p>
       <h1>Recordatorios de seguimiento</h1>
-      <p>Después de una visita, el vendedor programa un aviso para llamar o enviar la cotización.
-        La notificación la muestra el <strong>Service Worker</strong>, así que llega aunque la pestaña esté en segundo plano.</p>
-      <div class="api-tags"><code>Notification.requestPermission</code><code>self.registration.showNotification</code><code>notificationclick</code></div>
+      <p>Después de una visita, programa un aviso para llamar, enviar la cotización o cobrar. Te llega aunque estés usando otra aplicación.</p>
     </header>
 
     <div class="grid">
@@ -75,17 +73,16 @@
         </div>
       </section>
 
-      <!-- 2) Service Worker -->
+      <!-- 2) Resumen (el estado lo informa el Service Worker) -->
       <section class="card" aria-labelledby="t-sw">
         <div class="card-head">
-          <h2 id="t-sw"><svg class="ico" aria-hidden="true"><use href="#i-cog"/></svg>Service Worker</h2>
-          <span class="pill" id="swPill" data-state="unknown">Registrando…</span>
+          <h2 id="t-sw"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Tus recordatorios</h2>
+          <span class="pill" id="swPill" data-state="unknown">Preparando…</span>
         </div>
         <dl class="kv">
-          <div><dt>Estado</dt><dd id="swEstado">–</dd></div>
-          <div><dt>Programados</dt><dd id="swPendientes">0</dd></div>
+          <div><dt>Pendientes</dt><dd id="swPendientes">0</dd></div>
+          <div><dt>Enviados hoy</dt><dd id="swEnviados">0</dd></div>
         </dl>
-        <p class="hint sw-hint">Los avisos se muestran con <code>self.registration.showNotification()</code> dentro de <code>sw.js</code>, no con <code>new Notification()</code> desde la página.</p>
       </section>
 
       <!-- 3) Programar recordatorio -->
@@ -122,22 +119,22 @@
             </div>
           </div>
           <div class="field">
-            <label for="nota">Nota (cuerpo de la notificación)</label>
+            <label for="nota">Nota</label>
             <input id="nota" placeholder="Confirmar si aprobaron la propuesta v2" maxlength="120">
           </div>
           <button class="btn btn-primary" type="submit" id="btnProgramar">
             <svg class="ico" aria-hidden="true"><use href="#i-bell"/></svg><span>Programar recordatorio</span>
           </button>
-          <p class="hint">Tip: programa uno "en 10 segundos" y cambia de pestaña o minimiza el navegador. El aviso llega igual.</p>
         </form>
       </section>
 
-      <!-- 4) Registro -->
+      <!-- 4) Actividad -->
       <section class="card grid-wide" aria-labelledby="t-log">
         <div class="card-head">
-          <h2 id="t-log"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>Registro de eventos</h2>
+          <h2 id="t-log"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>Actividad</h2>
         </div>
         <ol class="log" id="log" aria-live="polite"></ol>
+        <p class="empty" id="logVacio">Aquí verás tus recordatorios programados y enviados.</p>
       </section>
     </div>
   </main>

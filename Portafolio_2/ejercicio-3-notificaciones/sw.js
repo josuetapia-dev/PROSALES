@@ -6,7 +6,7 @@
 // aparece aunque la pestaña esté en segundo plano o minimizada.
 // =====================================================================
 
-const VERSION = 'v1.0.0';
+const VERSION = 'v1.1.0';
 const ICONO = new URL('../comun/icons/icon-192.png', self.location).href;
 const PAGINA = new URL('./', self.location).href;
 
@@ -22,9 +22,9 @@ let pendientes = 0;
 const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /** Avisa a las pestañas abiertas para el registro de eventos de la página */
-async function avisarPagina(evento, detalle) {
+async function avisarPagina(evento, detalle, cliente = "") {
   const clientes = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-  clientes.forEach((c) => c.postMessage({ tipo: 'sw-evento', evento, detalle, pendientes, version: VERSION }));
+  clientes.forEach((c) => c.postMessage({ tipo: 'sw-evento', evento, detalle, cliente, pendientes, version: VERSION }));
 }
 
 self.addEventListener('install', () => self.skipWaiting());
@@ -62,11 +62,11 @@ self.addEventListener('message', (event) => {
   // waitUntil mantiene vivo al SW durante la espera (los navegadores lo
   // permiten por algunos minutos, suficiente para recordatorios cortos)
   event.waitUntil((async () => {
-    await avisarPagina('programado', `"${recordatorio.cliente}" en ${recordatorio.segundos} s`);
+    await avisarPagina('programado', `"${recordatorio.cliente}" en ${recordatorio.segundos} s`, recordatorio.cliente);
     await esperar(recordatorio.segundos * 1000);
     await mostrar(recordatorio);
     pendientes--;
-    await avisarPagina('mostrada', `showNotification() → ${recordatorio.cliente}`);
+    await avisarPagina('mostrada', `showNotification() → ${recordatorio.cliente}`, recordatorio.cliente);
   })());
 });
 
@@ -80,11 +80,11 @@ self.addEventListener('notificationclick', (event) => {
   if (event.action === 'posponer') {
     pendientes++;
     event.waitUntil((async () => {
-      await avisarPagina('pospuesta', `${n.data.cliente}: se recordará en 1 min`);
+      await avisarPagina('pospuesta', `${n.data.cliente}: se recordará en 1 min`, n.data.cliente);
       await esperar(60 * 1000);
       await mostrar(n.data);
       pendientes--;
-      await avisarPagina('mostrada', `showNotification() → ${n.data.cliente} (pospuesta)`);
+      await avisarPagina('mostrada', `showNotification() → ${n.data.cliente} (pospuesta)`, n.data.cliente);
     })());
     return;
   }
@@ -99,10 +99,10 @@ self.addEventListener('notificationclick', (event) => {
     } else {
       await self.clients.openWindow(n.data.url);
     }
-    await avisarPagina('click', `Se tocó la notificación de ${n.data.cliente}`);
+    await avisarPagina('click', `Se tocó la notificación de ${n.data.cliente}`, n.data.cliente);
   })());
 });
 
 self.addEventListener('notificationclose', (event) => {
-  event.waitUntil(avisarPagina('cerrada', `Se descartó la notificación de ${event.notification.data.cliente}`));
+  event.waitUntil(avisarPagina('cerrada', `Se descartó la notificación de ${event.notification.data.cliente}`, event.notification.data.cliente));
 });

@@ -9,15 +9,17 @@
 //      cambia de fuente sin que el usuario recargue la página.
 // =====================================================================
 
-const { $, toast, log, esc, fmtFecha } = UI;
+const { $, toast, esc, fmtFecha } = UI;
 
 const API = 'https://dummyjson.com/products?limit=24&select=title,brand,category,price,stock,rating,thumbnail';
 const TIEMPO_LIMITE = 8000;   // con señal débil, no esperar para siempre
-const registro = $('#log');
 
 const usd = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'USD' });
 const SIN_IMAGEN = 'data:image/svg+xml,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120"><rect width="160" height="120" fill="#EFEFE8"/><path d="M58 78l18-20 12 13 8-9 16 16z" fill="#C9C7BC"/><circle cx="100" cy="44" r="8" fill="#C9C7BC"/></svg>');
+
+/** Cada paso de la estrategia queda en la consola (DevTools) */
+const traza = (texto) => console.info('[Catálogo]', texto);
 
 let productos = [];
 let categoria = '';
@@ -79,25 +81,25 @@ async function cargarCatalogo() {
     // Sin red, ni siquiera se intenta: se va directo a la copia local
     if (!navigator.onLine) throw new Error('El dispositivo no tiene conexión');
 
-    pintarFuente('cargando', 'Consultando la API…', 'Network-First: primero se intenta la red');
-    log(registro, `fetch → ${new URL(API).host}`);
+    pintarFuente('cargando', 'Actualizando catálogo…', 'Buscando precios actualizados');
+    traza(`fetch → ${new URL(API).host}`);
     const inicio = performance.now();
     const json = await desdeLaRed();
     const ms = Math.round(performance.now() - inicio);
-    log(registro, `Red OK en ${ms} ms · ${json.products.length} productos`);
+    traza(`Red OK en ${ms} ms · ${json.products.length} productos`);
 
     // 2) Copia local del JSON para cuando no haya red
     await CacheDB.guardar('catalogo', json.products);
-    log(registro, 'Copia guardada en IndexedDB (prosales-campo-api)');
+    traza('Copia guardada en IndexedDB (prosales-campo-api)');
 
     productos = json.products;
-    pintarFuente('red', 'En vivo', `Datos recién descargados de la API · ${fmtFecha.format(Date.now())}`);
+    pintarFuente('red', 'En vivo', `Precios actualizados · ${fmtFecha.format(Date.now())}`);
   } catch (err) {
     // 3) FALLBACK: la red falló → IndexedDB
     const motivo = err.name === 'AbortError' ? `La red tardó más de ${TIEMPO_LIMITE / 1000} s`
       : err instanceof TypeError ? 'No hubo respuesta de la red'   // fetch() lanza TypeError cuando no hay conexión
       : err.message;
-    log(registro, `Red falló: ${motivo}`);
+    traza(`Red falló: ${motivo}`);
     await usarCopiaLocal(motivo);
   } finally {
     cargando = false;
@@ -113,16 +115,16 @@ async function usarCopiaLocal(motivo) {
     const copia = await CacheDB.leer('catalogo');
     if (copia) {
       productos = copia.datos;
-      log(registro, `Fallback → IndexedDB · ${copia.datos.length} productos del ${fmtFecha.format(copia.fecha)}`);
+      traza(`Fallback → IndexedDB · ${copia.datos.length} productos del ${fmtFecha.format(copia.fecha)}`);
       pintarFuente('local', 'Sin conexión: mostrando datos guardados', `Última actualización: ${fmtFecha.format(copia.fecha)} · ${motivo}`);
       return;
     }
   } catch (err) {
-    log(registro, `No se pudo leer IndexedDB: ${err.message}`);
+    traza(`No se pudo leer IndexedDB: ${err.message}`);
   }
   // Ni red ni copia: se explica qué pasa, nunca una pantalla en blanco
   productos = [];
-  log(registro, 'Sin copia local disponible');
+  traza('Sin copia local disponible');
   pintarFuente('vacio', 'Sin conexión y sin datos guardados', motivo);
 }
 
@@ -130,7 +132,7 @@ async function usarCopiaLocal(motivo) {
 // 4) Cambios de conexión: la interfaz se actualiza sola
 // ---------------------------------------------------------------------
 window.addEventListener('offline', async () => {
-  log(registro, 'Evento "offline": se cambia a la copia local');
+  traza('Evento "offline": se cambia a la copia local');
   toast('Te quedaste sin conexión. Mostrando el catálogo guardado.');
   await usarCopiaLocal('El dispositivo perdió la conexión');
   pintarCategorias();
@@ -138,7 +140,7 @@ window.addEventListener('offline', async () => {
 });
 
 window.addEventListener('online', () => {
-  log(registro, 'Evento "online": se vuelve a consultar la red');
+  traza('Evento "online": se vuelve a consultar la red');
   toast('Conexión recuperada. Actualizando catálogo…');
   cargarCatalogo();
 });

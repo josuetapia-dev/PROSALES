@@ -9,6 +9,22 @@
 
 const { $, toast, log } = UI;
 const registro = $('#log');
+let enviados = 0;
+
+/** Actividad visible para el usuario; el detalle técnico va a la consola */
+function actividad(texto, tecnico) {
+  log(registro, texto);
+  $('#logVacio').hidden = true;
+  if (tecnico) console.info('[Recordatorios]', tecnico);
+}
+
+const ACTIVIDAD_SW = {
+  programado: (c) => `Recordatorio para ${c} programado`,
+  mostrada: (c) => `Se envió el recordatorio de ${c}`,
+  pospuesta: (c) => `Pospusiste el recordatorio de ${c} 1 minuto`,
+  click: (c) => `Abriste el recordatorio de ${c}`,
+  cerrada: (c) => `Descartaste el recordatorio de ${c}`,
+};
 
 const TEXTOS = {
   granted: ['Permitidas', 'Listo: Prosales puede enviarte recordatorios.'],
@@ -22,7 +38,7 @@ let registroSW = null;
 function pintarPermiso() {
   if (!soportado) {
     $('#permPill').textContent = 'No soportado';
-    $('#permText').textContent = 'Este navegador no soporta notificaciones de Service Worker.';
+    $('#permText').textContent = 'Este navegador no puede mostrar recordatorios.';
     $('#btnProgramar').disabled = true;
     // iPhone/iPad en Safari: solo funcionan con la app instalada en la pantalla de inicio
     $('#iosAviso').hidden = !/iPhone|iPad|iPod/.test(navigator.userAgent);
@@ -43,7 +59,7 @@ function pintarPermiso() {
 async function pedirPermiso(bienvenida = true) {
   const resultado = await Notification.requestPermission();
   pintarPermiso();
-  log(registro, `requestPermission() → "${resultado}"`);
+  console.info('[Recordatorios] requestPermission() →', resultado);
   if (resultado === 'granted') {
     toast('Notificaciones activadas');
     // Notificación de bienvenida, también desde el SW
@@ -61,21 +77,19 @@ async function pedirPermiso(bienvenida = true) {
 // ---------------------------------------------------------------------
 async function registrarSW() {
   if (!('serviceWorker' in navigator)) {
-    $('#swPill').textContent = 'No soportado';
+    $('#swPill').textContent = 'No disponibles';
     return;
   }
   try {
     await navigator.serviceWorker.register('sw.js');
     registroSW = await navigator.serviceWorker.ready;   // espera a que esté ACTIVO
     $('#swPill').dataset.state = 'granted';
-    $('#swPill').textContent = 'Activo';
-    $('#swEstado').textContent = 'Listo';
-    log(registro, `Service Worker activo · scope ${new URL(registroSW.scope).pathname}`);
+    $('#swPill').textContent = 'Listos';
+    console.info('[Recordatorios] Service Worker activo · scope', registroSW.scope);
   } catch (err) {
     $('#swPill').dataset.state = 'denied';
-    $('#swPill').textContent = 'Error';
-    $('#swEstado').textContent = 'Sin SW';
-    log(registro, `Error al registrar el SW: ${err.message}`);
+    $('#swPill').textContent = 'No disponibles';
+    console.error('[Recordatorios] No se pudo registrar el Service Worker:', err);
   }
 }
 
@@ -106,7 +120,7 @@ $('#recordatorioForm').addEventListener('submit', async (e) => {
   }
   if (Notification.permission === 'default' && (await pedirPermiso(false)) !== 'granted') return;
   if (!registroSW?.active) {
-    toast('El Service Worker aún no está listo');
+    toast('Los recordatorios aún no están listos, intenta en un momento');
     return;
   }
 
@@ -123,8 +137,10 @@ $('#recordatorioForm').addEventListener('submit', async (e) => {
 // Mensajes que manda el SW (para el registro y el contador)
 navigator.serviceWorker?.addEventListener('message', ({ data }) => {
   if (data?.tipo === 'sw-evento') {
-    log(registro, `[SW] ${data.evento}: ${data.detalle}`);
+    const texto = ACTIVIDAD_SW[data.evento];
+    actividad(texto ? texto(data.cliente) : data.detalle, `[SW ${data.version}] ${data.evento}: ${data.detalle}`);
     $('#swPendientes').textContent = data.pendientes;
+    if (data.evento === 'mostrada') $('#swEnviados').textContent = ++enviados;
   }
   if (data?.tipo === 'abrir-cliente') {
     toast(`Abriste el recordatorio de ${data.cliente}`);
@@ -136,7 +152,7 @@ navigator.serviceWorker?.addEventListener('message', ({ data }) => {
 navigator.permissions?.query({ name: 'notifications' })
   .then((status) => status.addEventListener('change', () => {
     pintarPermiso();
-    log(registro, `El permiso cambió a "${Notification.permission}"`);
+    actividad(`Las notificaciones ahora están ${TEXTOS[Notification.permission][0].toLowerCase()}`);
   }))
   .catch(() => { /* navegador sin Permissions API */ });
 
@@ -144,7 +160,7 @@ navigator.permissions?.query({ name: 'notifications' })
 const desdeNotificacion = new URLSearchParams(location.search).get('cliente');
 if (desdeNotificacion) {
   $('#cliente').value = desdeNotificacion;
-  log(registro, `Se abrió la app desde la notificación de ${desdeNotificacion}`);
+  actividad(`Abriste la app desde el recordatorio de ${desdeNotificacion}`);
 }
 
 $('#btnPermiso').addEventListener('click', () => pedirPermiso());

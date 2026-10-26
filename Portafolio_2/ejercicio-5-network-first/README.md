@@ -46,7 +46,7 @@ fetch(API) con límite de 8 s (AbortController)              │
 > La base de datos es distinta a la del Ejercicio 4 (`prosales-campo`). Como los dos ejercicios
 > comparten origen, así no compiten por el número de versión.
 
-El panel *Estrategia paso a paso* muestra en vivo cada decisión: petición, tiempo de respuesta,
+En la consola de DevTools (`[Catálogo]`) queda cada decisión: petición, tiempo de respuesta,
 guardado en IndexedDB y uso del *fallback*.
 
 ## Cómo probarlo

@@ -4,7 +4,7 @@
 // página (Cache First) para poder abrir la bitácora sin internet.
 // =====================================================================
 
-const VERSION = 'v1.0.0';
+const VERSION = 'v1.1.0';
 const CACHE = `prosales-campo-ej4-${VERSION}`;
 
 const ARCHIVOS = [

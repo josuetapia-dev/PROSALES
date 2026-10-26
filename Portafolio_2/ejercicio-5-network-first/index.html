@@ -40,11 +40,8 @@
   <main class="page">
     <a class="back" href="../"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>Módulos</a>
     <header class="page-head">
-      <p class="eyebrow">Ejercicio 5 · Caché dinámica con fallback</p>
       <h1>Catálogo de productos</h1>
-      <p>Para cotizar en la visita, el vendedor consulta precios y existencias desde una API REST.
-        Siempre se intenta la red primero; si no hay señal, la app muestra automáticamente el último catálogo guardado en IndexedDB.</p>
-      <div class="api-tags"><code>fetch</code><code>Network-First</code><code>IndexedDB</code><code>online / offline</code></div>
+      <p>Consulta precios y existencias para cotizar durante la visita. Si te quedas sin señal, sigues viendo el último catálogo descargado.</p>
     </header>
 
     <!-- Estado de la fuente de datos: en vivo (red) o copia local (IndexedDB) -->
@@ -52,7 +49,7 @@
       <svg class="ico" aria-hidden="true"><use href="#i-wifi" id="fuenteIco"/></svg>
       <div class="grow">
         <strong id="fuenteTitulo">Cargando catálogo…</strong>
-        <span id="fuenteTexto">Consultando la API</span>
+        <span id="fuenteTexto">Buscando precios actualizados</span>
       </div>
       <button class="btn btn-ghost btn-sm" type="button" id="btnActualizar">
         <svg class="ico" aria-hidden="true"><use href="#i-refresh"/></svg><span>Actualizar</span>
@@ -78,18 +75,12 @@
     <div class="grid detalles">
       <section class="card" aria-labelledby="t-idb">
         <div class="card-head">
-          <h2 id="t-idb"><svg class="ico" aria-hidden="true"><use href="#i-db"/></svg>Copia local (IndexedDB)</h2>
+          <h2 id="t-idb"><svg class="ico" aria-hidden="true"><use href="#i-db"/></svg>Guardado en tu dispositivo</h2>
         </div>
         <dl class="kv">
           <div><dt>Productos guardados</dt><dd id="idbTotal">–</dd></div>
           <div><dt>Guardado el</dt><dd id="idbFecha">–</dd></div>
         </dl>
-      </section>
-      <section class="card" aria-labelledby="t-log">
-        <div class="card-head">
-          <h2 id="t-log"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>Estrategia paso a paso</h2>
-        </div>
-        <ol class="log" id="log"></ol>
       </section>
     </div>
   </main>

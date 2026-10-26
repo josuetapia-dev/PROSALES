@@ -40,11 +40,8 @@
   <main class="page">
     <a class="back" href="../"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>Módulos</a>
     <header class="page-head">
-      <p class="eyebrow">Ejercicio 1 · Permisos y geolocalización</p>
       <h1>Registro de llegada</h1>
-      <p>Al llegar con un cliente, el vendedor registra su ubicación. Antes de pedir el GPS, la app revisa
-        con la Permissions API si el permiso ya fue concedido, está pendiente o fue bloqueado.</p>
-      <div class="api-tags"><code>navigator.permissions.query</code><code>navigator.geolocation.getCurrentPosition</code></div>
+      <p>Al llegar con un cliente, registra tu ubicación para dejar constancia de la visita.</p>
     </header>
 
     <div class="grid">
@@ -54,7 +51,7 @@
           <h2 id="t-permiso"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>Permiso de ubicación</h2>
           <span class="pill" id="permPill" data-state="unknown">Consultando…</span>
         </div>
-        <p id="permText">Revisando el estado del permiso con la Permissions API…</p>
+        <p id="permText">Revisando el permiso…</p>
         <div class="alert danger" id="permDenied" hidden>
           <svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>
           <div>
@@ -86,7 +83,7 @@
           <button class="btn btn-primary btn-block" type="submit" id="btnUbicar">
             <svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span>Registrar mi ubicación</span>
           </button>
-          <p class="hint" id="estadoGps" role="status" aria-live="polite">La interfaz sigue respondiendo mientras se obtiene la ubicación.</p>
+          <p class="hint" id="estadoGps" role="status" aria-live="polite"></p>
         </form>
       </section>
 

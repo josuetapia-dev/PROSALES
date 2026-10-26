@@ -14,7 +14,7 @@ const TEXTOS_PERMISO = {
   granted: { pill: 'Concedido', texto: 'Ya diste permiso. La ubicación se obtiene directamente, sin volver a preguntar.' },
   prompt: { pill: 'Pendiente', texto: 'Aún no has decidido. Al registrar tu llegada, el navegador te pedirá permiso.' },
   denied: { pill: 'Bloqueado', texto: 'Bloqueaste la ubicación para este sitio. La app no puede pedirla de nuevo por su cuenta.' },
-  unsupported: { pill: 'Sin Permissions API', texto: 'Tu navegador no permite consultar el permiso por adelantado; se pedirá al registrar tu llegada.' },
+  unsupported: { pill: 'No disponible', texto: 'Tu navegador no permite consultar el permiso por adelantado; se pedirá al registrar tu llegada.' },
 };
 
 let estadoPermiso = 'unsupported';

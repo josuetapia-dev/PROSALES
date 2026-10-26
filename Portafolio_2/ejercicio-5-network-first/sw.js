@@ -7,7 +7,7 @@
 //                             Network-First y la copia en IndexedDB
 // =====================================================================
 
-const VERSION = 'v1.0.0';
+const VERSION = 'v1.1.0';
 const PREFIJO = 'prosales-campo-ej5-';
 const CACHE_SHELL = `${PREFIJO}shell-${VERSION}`;
 const CACHE_IMAGENES = `${PREFIJO}imagenes-${VERSION}`;

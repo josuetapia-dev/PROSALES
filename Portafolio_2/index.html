@@ -51,11 +51,10 @@
 
   <main class="page">
     <section class="hero">
-      <p class="eyebrow">Portafolio de Ejercicios 2 · Web APIs, permisos y persistencia</p>
+      <p class="eyebrow">Visitas a clientes</p>
       <h1>Prosales <span>Campo</span></h1>
-      <p>El módulo de Prosales para vendedores que visitan clientes en la calle: registra la llegada con GPS,
-        toma fotos de evidencia, programa recordatorios, guarda la bitácora sin internet y consulta el
-        catálogo de productos aunque se quede sin señal.</p>
+      <p>Todo lo que necesitas para tu ruta del día: registra tu llegada, toma fotos de evidencia,
+        programa recordatorios, lleva tu bitácora y consulta el catálogo, aunque te quedes sin señal.</p>
     </section>
 
     <ul class="modulos">
@@ -63,51 +62,38 @@
         <a class="modulo" href="ejercicio-1-geolocalizacion/">
           <span class="modulo-num">1</span>
           <h2>Registro de llegada</h2>
-          <p>Consulta el estado del permiso de ubicación y registra las coordenadas de la visita en un mapa.</p>
-          <code>permissions.query · geolocation</code>
+          <p>Marca en el mapa dónde y a qué hora llegaste con cada cliente.</p>
         </a>
       </li>
       <li>
         <a class="modulo" href="ejercicio-2-camara/">
           <span class="modulo-num">2</span>
           <h2>Foto de evidencia</h2>
-          <p>Abre la cámara del celular o la webcam y captura fotos con sello de fecha y cliente.</p>
-          <code>mediaDevices.getUserMedia · canvas</code>
+          <p>Fotografía el anaquel, la fachada o el ticket con sello de fecha y cliente.</p>
         </a>
       </li>
       <li>
         <a class="modulo" href="ejercicio-3-notificaciones/">
           <span class="modulo-num">3</span>
           <h2>Recordatorios de seguimiento</h2>
-          <p>Programa avisos para no olvidar llamar a un cliente, disparados desde el Service Worker.</p>
-          <code>Notification · registration.showNotification</code>
+          <p>Programa un aviso para no olvidar llamar, cotizar o cobrar.</p>
         </a>
       </li>
       <li>
         <a class="modulo" href="ejercicio-4-indexeddb/">
           <span class="modulo-num">4</span>
           <h2>Bitácora de visitas</h2>
-          <p>Guarda, edita, busca y elimina visitas en el dispositivo, sin depender de internet.</p>
-          <code>IndexedDB</code>
+          <p>Anota cada visita y su resultado, con o sin internet.</p>
         </a>
       </li>
       <li>
         <a class="modulo" href="ejercicio-5-network-first/">
           <span class="modulo-num">5</span>
           <h2>Catálogo de productos</h2>
-          <p>Consulta precios desde una API REST y, sin señal, muestra el último catálogo guardado.</p>
-          <code>fetch · Network-First · IndexedDB</code>
+          <p>Revisa precios y existencias, incluso cuando no tienes señal.</p>
         </a>
       </li>
     </ul>
-
-    <div class="alert nota">
-      <svg class="ico" aria-hidden="true"><use href="#i-info"/></svg>
-      <div>
-        <strong>Para probar en el celular se necesita HTTPS</strong>
-        La cámara, el GPS, las notificaciones y los Service Workers solo funcionan en <code>https://</code> o en <code>localhost</code>.
-      </div>
-    </div>
   </main>
 
   <footer class="footer">Josué Pérez Tapia · Aplicaciones Web Progresivas · UTGZ</footer>
