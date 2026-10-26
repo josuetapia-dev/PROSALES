@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Registro de llegada · Prosales Campo</title>
+  <meta name="description" content="Registra la ubicación de tus visitas a clientes con el GPS del dispositivo.">
+  <meta name="theme-color" content="#1F1A3D">
+  <link rel="icon" href="../comun/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../comun/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <!-- Leaflet: mapa interactivo con OpenStreetMap (no requiere API key) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="../comun/styles.css">
+  <link rel="stylesheet" href="css/ejercicio.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="../" aria-label="Prosales Campo, inicio">
+      <img src="../comun/icons/favicon.svg" alt="" width="32" height="32">
+      <span class="brand-name">pro<span>sales</span></span>
+      <span class="brand-tag">Campo</span>
+    </a>
+    <span class="net" id="netStatus"><span class="net-dot" aria-hidden="true"></span><span class="net-text">En línea</span></span>
+  </header>
+
+  <main class="page">
+    <a class="back" href="../"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>Módulos</a>
+    <header class="page-head">
+      <h1>Registro de llegada</h1>
+      <p>Al llegar con un cliente, registra tu ubicación para dejar constancia de la visita.</p>
+    </header>
+
+    <div class="grid">
+      <!-- 1) Estado del permiso -->
+      <section class="card" aria-labelledby="t-permiso">
+        <div class="card-head">
+          <h2 id="t-permiso"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>Permiso de ubicación</h2>
+          <span class="pill" id="permPill" data-state="unknown">Consultando…</span>
+        </div>
+        <p id="permText">Revisando el permiso…</p>
+        <div class="alert danger" id="permDenied" hidden>
+          <svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>
+          <div>
+            <strong>La ubicación está bloqueada</strong>
+            Para volver a activarla, toca el candado junto a la dirección del sitio → <em>Permisos</em> → <em>Ubicación</em> → <em>Permitir</em>, y recarga la página.
+          </div>
+        </div>
+      </section>
+
+      <!-- 2) Registrar la llegada -->
+      <section class="card" aria-labelledby="t-llegada">
+        <div class="card-head">
+          <h2 id="t-llegada"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Nueva llegada</h2>
+        </div>
+        <form class="form" id="llegadaForm">
+          <div class="field">
+            <label for="cliente">Cliente que visitas</label>
+            <input id="cliente" name="cliente" list="clientes" placeholder="Clínica Dental Sonríe" autocomplete="off">
+            <datalist id="clientes">
+              <option>Clínica Dental Sonríe</option><option>Constructora Ríos</option><option>Café La Esquina</option>
+              <option>Taller Mecánico Hernández</option><option>Inmobiliaria Horizonte</option><option>Gimnasio Fuerza Total</option>
+              <option>Estética Bella</option><option>Florería Pétalo</option><option>Veterinaria Patitas</option>
+            </datalist>
+          </div>
+          <label class="check">
+            <input type="checkbox" id="altaPrecision" checked>
+            <span>Alta precisión (usa el GPS del celular, tarda un poco más)</span>
+          </label>
+          <button class="btn btn-primary btn-block" type="submit" id="btnUbicar">
+            <svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span>Registrar mi ubicación</span>
+          </button>
+          <p class="hint" id="estadoGps" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <!-- 3) Resultado: coordenadas + mapa -->
+      <section class="card grid-wide" aria-labelledby="t-mapa">
+        <div class="card-head">
+          <h2 id="t-mapa"><svg class="ico" aria-hidden="true"><use href="#i-map"/></svg>Ubicación registrada</h2>
+          <a class="btn btn-ghost btn-sm" id="linkMaps" href="#" target="_blank" rel="noopener" hidden>
+            <svg class="ico" aria-hidden="true"><use href="#i-external"/></svg>Abrir en Google Maps
+          </a>
+        </div>
+        <dl class="kv" id="coords">
+          <div><dt>Latitud</dt><dd id="lat">–</dd></div>
+          <div><dt>Longitud</dt><dd id="lng">–</dd></div>
+          <div><dt>Precisión</dt><dd id="precision">–</dd></div>
+          <div><dt>Hora</dt><dd id="hora">–</dd></div>
+        </dl>
+        <div class="mapa" id="mapa" role="region" aria-label="Mapa con la ubicación registrada">
+          <div class="empty" id="mapaVacio">
+            <svg class="ico" aria-hidden="true"><use href="#i-map"/></svg>
+            Registra tu llegada para ver el mapa.
+          </div>
+        </div>
+      </section>
+
+      <!-- 4) Historial de la jornada -->
+      <section class="card grid-wide" aria-labelledby="t-hist">
+        <div class="card-head">
+          <h2 id="t-hist"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>Llegadas de hoy</h2>
+          <button class="btn btn-ghost btn-sm" type="button" id="btnLimpiar" hidden>Limpiar</button>
+        </div>
+        <ul class="list" id="historial"></ul>
+        <p class="empty" id="historialVacio">Todavía no registras llegadas hoy.</p>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../comun/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Foto de evidencia · Prosales Campo</title>
+  <meta name="description" content="Toma fotos de evidencia de tus visitas con la cámara del celular o la webcam.">
+  <meta name="theme-color" content="#1F1A3D">
+  <link rel="icon" href="../comun/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../comun/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../comun/styles.css">
+  <link rel="stylesheet" href="css/ejercicio.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
+    <symbol id="i-flip" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="../" aria-label="Prosales Campo, inicio">
+      <img src="../comun/icons/favicon.svg" alt="" width="32" height="32">
+      <span class="brand-name">pro<span>sales</span></span>
+      <span class="brand-tag">Campo</span>
+    </a>
+    <span class="net" id="netStatus"><span class="net-dot" aria-hidden="true"></span><span class="net-text">En línea</span></span>
+  </header>
+
+  <main class="page">
+    <a class="back" href="../"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>Módulos</a>
+    <header class="page-head">
+      <h1>Foto de evidencia</h1>
+      <p>Fotografía el anaquel, la fachada o el ticket del cliente. Cada foto lleva la fecha, la hora y el cliente como comprobante de la visita.</p>
+    </header>
+
+    <div class="grid camara-grid">
+      <!-- 1) Visor de la cámara -->
+      <section class="card" aria-labelledby="t-visor">
+        <div class="card-head">
+          <h2 id="t-visor"><svg class="ico" aria-hidden="true"><use href="#i-camera"/></svg>Cámara</h2>
+          <span class="pill" id="camPill" data-state="unknown">Apagada</span>
+        </div>
+
+        <div class="visor" id="visor">
+          <!-- playsinline + muted: obligatorios para que iOS reproduzca el video dentro de la página -->
+          <video id="video" autoplay playsinline muted></video>
+          <div class="visor-vacio" id="visorVacio">
+            <svg class="ico" aria-hidden="true"><use href="#i-camera"/></svg>
+            <span>La cámara está apagada</span>
+          </div>
+          <div class="flash" id="flash" aria-hidden="true"></div>
+        </div>
+
+        <div class="alert danger" id="camError" role="alert" hidden>
+          <svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>
+          <div><strong id="camErrorTitulo"></strong><span id="camErrorTexto"></span></div>
+        </div>
+
+        <div class="field sello-field">
+          <label for="cliente">Cliente (aparece en el sello de la foto)</label>
+          <input id="cliente" list="clientes" placeholder="Café La Esquina" autocomplete="off">
+          <datalist id="clientes">
+            <option>Clínica Dental Sonríe</option><option>Constructora Ríos</option><option>Café La Esquina</option>
+            <option>Taller Mecánico Hernández</option><option>Inmobiliaria Horizonte</option><option>Florería Pétalo</option>
+          </datalist>
+        </div>
+
+        <div class="controles">
+          <button class="btn btn-primary" type="button" id="btnEncender">
+            <svg class="ico" aria-hidden="true"><use href="#i-camera"/></svg><span>Encender cámara</span>
+          </button>
+          <button class="btn btn-ghost" type="button" id="btnGirar" hidden>
+            <svg class="ico" aria-hidden="true"><use href="#i-flip"/></svg><span>Cambiar cámara</span>
+          </button>
+          <button class="btn btn-ghost" type="button" id="btnApagar" hidden>
+            <svg class="ico" aria-hidden="true"><use href="#i-stop"/></svg><span>Apagar</span>
+          </button>
+        </div>
+        <button class="obturador" type="button" id="btnCapturar" disabled aria-label="Tomar foto"></button>
+        <p class="hint centro" id="camInfo" aria-live="polite"></p>
+      </section>
+
+      <!-- 2) Última captura en canvas -->
+      <section class="card" aria-labelledby="t-captura">
+        <div class="card-head">
+          <h2 id="t-captura"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg>Última foto</h2>
+          <button class="btn btn-ghost btn-sm" type="button" id="btnDescargar" disabled>
+            <svg class="ico" aria-hidden="true"><use href="#i-download"/></svg>Descargar
+          </button>
+        </div>
+        <!-- El cuadro del video se "congela" dibujándolo en este canvas -->
+        <div class="lienzo">
+          <canvas id="canvas" width="1280" height="720" aria-label="Fotografía capturada"></canvas>
+          <p class="empty" id="canvasVacio">Aquí aparecerá la foto que tomes.</p>
+        </div>
+
+        <div class="card-head galeria-head">
+          <h2>Fotos de la visita <span class="muted" id="contador"></span></h2>
+          <button class="btn btn-danger btn-sm" type="button" id="btnBorrar" hidden>
+            <svg class="ico" aria-hidden="true"><use href="#i-trash"/></svg>Borrar
+          </button>
+        </div>
+        <ul class="galeria" id="galeria"></ul>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../comun/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

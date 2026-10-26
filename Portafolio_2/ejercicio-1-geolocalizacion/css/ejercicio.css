@@ -1,0 +1,19 @@
+/* Ejercicio 1 · estilos propios */
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: .875rem; color: var(--muted); cursor: pointer; }
+.check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--primary); }
+
+.mapa {
+  position: relative; margin-top: 14px; height: 340px;
+  border-radius: var(--radius-sm); overflow: hidden;
+  background: var(--surface-2); border: 1px solid var(--border);
+}
+.mapa .empty { position: absolute; inset: 0; display: grid; place-content: center; }
+.leaflet-container { font-family: var(--font); }
+
+.list-item .num {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: grid; place-items: center; font-weight: 800; font-size: .8125rem;
+  background: var(--tinta); color: var(--lima);
+}
+
+@media (max-width: 520px) { .mapa { height: 260px; } }
